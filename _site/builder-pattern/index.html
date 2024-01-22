@@ -1,0 +1,837 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.24.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="es" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Builder pattern - El viejo aprendiz</title>
+<meta name="description" content="Separar la construcción de un objeto complejo de su representación para que un mismo proceso de construcción pueda crear diferentes representaciones.">
+
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="es_ES">
+<meta property="og:site_name" content="El viejo aprendiz">
+<meta property="og:title" content="Builder pattern">
+<meta property="og:url" content="http://localhost:4000/builder-pattern/">
+
+
+  <meta property="og:description" content="Separar la construcción de un objeto complejo de su representación para que un mismo proceso de construcción pueda crear diferentes representaciones.">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2023-10-27T00:00:00+02:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="http://localhost:4000/builder-pattern/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "El viejo aprendiz",
+      "url": "http://localhost:4000/"
+    
+  }
+</script>
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="El viejo aprendiz Feed">
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css"></noscript>
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Saltar a navegación principal</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Saltar a contenido</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Saltar a pie</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          El viejo aprendiz
+          <span class="site-subtitle">El blog de un viejo aprendiz de desarrollo</span>
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/year-archive/" title="Colección de todos los posts">Posts</a>
+            </li></ul>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Alternar menú</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+
+  <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name"></h3>
+    
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Seguir</button>
+    <ul class="author__urls social-icons">
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Builder pattern">
+    <meta itemprop="description" content="Separar la construcción de un objeto complejo de su representación para que un mismo proceso de construcción pueda crear diferentes representaciones.">
+    <meta itemprop="datePublished" content="2023-10-27T00:00:00+02:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">Builder pattern
+</h1>
+          
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2023-10-27T00:00:00+02:00">October 27, 2023</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          7 minuto(s) de lectura
+        
+      </span>
+    
+  </p>
+
+
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right sticky">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> En esta página</h4></header>
+              <ul class="toc__menu"><li><a href="#el-problema-a-resolver">El problema a resolver</a></li><li><a href="#una-solución-inmediata">Una solución inmediata</a></li><li><a href="#la-solución-basada-en-el-patrón">La solución basada en el patrón</a><ul><li><a href="#analizando-los-requisitos">Analizando los requisitos</a></li><li><a href="#el-código">El código</a><ul><li><a href="#explicación">Explicación</a></li><li><a href="#instanciaciones-válidas">Instanciaciones válidas</a></li><li><a href="#instanciaciones-inválidas">Instanciaciones inválidas</a></li></ul></li></ul></li></ul>
+
+            </nav>
+          </aside>
+        
+        <blockquote>
+  <p>Separate the construction of a complex object from its representation so that the same construction process can create different representations. — <a href="https://en.wikipedia.org/wiki/Design_Patterns">GoF</a></p>
+</blockquote>
+
+<h1 id="el-problema-a-resolver">El problema a resolver</h1>
+<p>Imaginemos que necesitamos modelar la entidad <code class="language-plaintext highlighter-rouge">Person</code>, que posee las propiedades <code class="language-plaintext highlighter-rouge">name</code>, <code class="language-plaintext highlighter-rouge">age</code>, <code class="language-plaintext highlighter-rouge">town</code>, <code class="language-plaintext highlighter-rouge">workplace</code> y <code class="language-plaintext highlighter-rouge">school</code>. Sobre estas propiedades han de cumplirse de forma invariante las siguientes condiciones:</p>
+<ul>
+  <li>Las propiedades <code class="language-plaintext highlighter-rouge">name</code> y <code class="language-plaintext highlighter-rouge">edad</code> son obligatorias, esto es, no podrán ser <code class="language-plaintext highlighter-rouge">null</code>.</li>
+  <li>El propiedad <code class="language-plaintext highlighter-rouge">municipio</code> es opcional, esto es, podrá ser informada con una cadena de texto o dejarse sin informar, tomando entonces el valor <code class="language-plaintext highlighter-rouge">null</code>.</li>
+  <li>La propiedad <code class="language-plaintext highlighter-rouge">workplace</code> es opcional solo si la persona es mayor de edad, si es menor de edad, será  obligatoriamente <code class="language-plaintext highlighter-rouge">null</code>.</li>
+  <li>La propiedad <code class="language-plaintext highlighter-rouge">school</code> es opcional solo si la persona es menor de edad, si es mayor, será obligatoriamente <code class="language-plaintext highlighter-rouge">null</code>.</li>
+</ul>
+
+<h1 id="una-solución-inmediata">Una solución inmediata</h1>
+<p>Como hemos comentado antes, <strong>siempre</strong> que exista un objeto de la clase <code class="language-plaintext highlighter-rouge">Person</code>, cumplirá las condiciones, es decir, nunca podrá existir un objeto que no cumpla las condiciones. Por lo tanto, para no permitir que se puedan crear objetos que no cumplan las condiciones, podríamos validar todas las condiciones en el constructor de nuestra clase, de forma que al intentar crear un objeto que no cumpliera alguna de las condiciones nos saltara una excepción, por ejemplo:</p>
+
+<div class="language-kotlin highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="nc">Person</span><span class="p">(</span>
+    <span class="k">private</span> <span class="kd">val</span> <span class="py">name</span><span class="p">:</span> <span class="nc">String</span><span class="p">?,</span>
+    <span class="k">private</span> <span class="kd">val</span> <span class="py">age</span><span class="p">:</span> <span class="nc">Int</span><span class="p">?,</span>
+    <span class="k">private</span> <span class="kd">val</span> <span class="py">town</span><span class="p">:</span> <span class="nc">String</span><span class="p">?,</span>
+    <span class="k">private</span> <span class="kd">val</span> <span class="py">workplace</span><span class="p">:</span> <span class="nc">String</span><span class="p">?,</span>
+    <span class="k">private</span> <span class="kd">val</span> <span class="py">school</span><span class="p">:</span> <span class="nc">String</span><span class="p">?,</span>
+<span class="p">)</span> <span class="p">{</span>
+
+    <span class="nf">init</span> <span class="p">{</span>
+        <span class="kd">val</span> <span class="py">fullAge</span> <span class="p">=</span> <span class="mi">18</span>
+        <span class="nf">requireNotNull</span><span class="p">(</span><span class="n">name</span><span class="p">){</span><span class="s">"'name' is mandatory"</span><span class="p">}</span>
+        <span class="nf">requireNotNull</span><span class="p">(</span><span class="n">age</span><span class="p">){</span><span class="s">"'age' is mandatory"</span><span class="p">}</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">age</span> <span class="p">&lt;</span> <span class="n">fullAge</span><span class="p">){</span>
+            <span class="nf">require</span><span class="p">(</span><span class="n">workplace</span> <span class="p">==</span> <span class="k">null</span><span class="p">){</span>
+                <span class="s">"'workplace' must not be reported when one is underage"</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">age</span> <span class="p">&gt;=</span> <span class="n">fullAge</span><span class="p">){</span>
+            <span class="nf">require</span><span class="p">(</span><span class="n">school</span> <span class="p">==</span> <span class="k">null</span><span class="p">){</span>
+                <span class="s">"'school' must not be reported when one is of legal age"</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h1 id="la-solución-basada-en-el-patrón">La solución basada en el patrón</h1>
+<p>Y aunque esto sea una solución totalmente funcional, es posible que queramos ir un paso mas allá, y ofrecer solo formas válidas de instanciar nuestra clase, esto es, no ofrecer formas de instanciación que puedan acabar provocando una excepción. Si conseguimos esto, habremos hecho la vida mas fácil a los programadores instanciadores de nuestra clase, y al tiempo, nuestro sistema será mas robusto al haber acotado el número de formas posibles en las que se pueden generar errores en tiempo de ejecución. Sin embargo, nos encontramos ante un nuevo desafío, el de presentar tantas formas de instanciar un objeto como combinaciones válidas de parámetros y argumentos existan.</p>
+
+<h2 id="analizando-los-requisitos">Analizando los requisitos</h2>
+<p>Si hacemos un análisis exhaustivo de los requisitos podemos comprobar que existen 8 combinaciones válidas de parámetros, siendo todas las restantes opciones no válidas. En la tabla de abajo, donde cada columna representa un parámetro de construcción, están representadas todas las posibles combinaciones de argumentos y, cada fila representa un subconjunto de la totalidad. Las filas rojas representan combinaciones no válidas y debemos interpretar los valores de la tabla de la siguiente manera:</p>
+
+<ul>
+  <li>“<em>not reported</em>” indica que se pretende instanciar el objeto sin pasar valor (o pasando el valor null) en el parámetro representado por la columna correspondiente.</li>
+  <li>“<em>reported</em>” indica que se pretende instanciar el objeto pasando un valor distinto de null en el parámetro representado por la columna correspondiente.</li>
+  <li>“<em>minor</em>” solo se utiliza en la columna <code class="language-plaintext highlighter-rouge">age</code> e indica que se pretende instanciar el objeto pasando un valor numérico, no nulo, menor de 18.</li>
+  <li>“<em>major</em>” solo se utiliza en la columna <code class="language-plaintext highlighter-rouge">age</code> e indica que se pretende instanciar el objeto pasando un valor numérico, no nulo, mayor o igual a 18.</li>
+  <li>”–” representa cualquier valor, es decir, un valor nulo o no nulo.</li>
+</ul>
+
+<table>
+    <thead>
+        <tr align="center">
+            <th>Combinación</th>
+            <th>name</th>
+            <th>age</th>
+            <th>town</th>
+            <th>workplace</th>
+            <th>school</th>
+        </tr>
+    </thead>
+    <tbody align="center">
+        <tr style="background-color: #f87168">
+            <td>1</td>
+            <td>not reported</td>
+            <td>--</td>
+            <td>--</td>
+            <td>--</td>
+            <td>--</td>
+        </tr>
+        <tr style="background-color: #f87168">
+            <td>2</td>        
+            <td>reported</td>
+            <td>not reported</td>
+            <td>--</td>
+            <td>--</td>
+            <td>--</td>
+        </tr>
+        <tr>
+            <td>3</td>        
+            <td>reported</td>
+            <td>minor</td>
+            <td>not reported</td>
+            <td>not reported</td>
+            <td>not reported</td>
+        </tr>        
+        <tr>
+            <td>4</td>        
+            <td>reported</td>
+            <td>minor</td>
+            <td>not reported</td>
+            <td>not reported</td>
+            <td>reported</td>
+        </tr>        
+        <tr>
+            <td>5</td>        
+            <td>reported</td>
+            <td>minor</td>
+            <td>reported</td>
+            <td>not reported</td>
+            <td>not reported</td>
+        </tr>           
+        <tr>
+            <td>6</td>        
+            <td>reported</td>
+            <td>minor</td>
+            <td>reported</td>
+            <td>not reported</td>
+            <td>reported</td>
+        </tr>                
+        <tr style="background-color: #f87168">
+            <td>7</td>        
+            <td>reported</td>
+            <td>minor</td>
+            <td>--</td>
+            <td>reported</td>
+            <td>--</td>
+        </tr>                
+        <tr>
+            <td>8</td>        
+            <td>reported</td>
+            <td>major</td>
+            <td>not reported</td>
+            <td>not reported</td>
+            <td>not reported</td>
+        </tr>                    
+        <tr>
+            <td>9</td>        
+            <td>reported</td>
+            <td>major</td>
+            <td>not reported</td>
+            <td>reported</td>
+            <td>not reported</td>
+        </tr>           
+        <tr>
+            <td>10</td>        
+            <td>reported</td>
+            <td>major</td>
+            <td>reported</td>
+            <td>not reported</td>
+            <td>not reported</td>
+        </tr>                
+        <tr>
+            <td>11</td>        
+            <td>reported</td>
+            <td>major</td>
+            <td>reported</td>
+            <td>reported</td>
+            <td>not informed</td>
+        </tr>                
+        <tr style="background-color: #f87168">
+            <td>12</td>
+            <td>reported</td>
+            <td>major</td>
+            <td>--</td>
+            <td>--</td>
+            <td>reported</td>
+        </tr>                                                                                
+    </tbody>
+</table>
+
+<h2 id="el-código">El código</h2>
+<p>Pues bien, el builder pattern nos ayuda a modelar todos estos requisitos en el código sin necesidad de crear constructores para cada una de las combinaciones (si es que esto fuera posible para el caso que tuviéramos entre manos). Además de permitirnos ir guiando al programador durante la construcción de objetos solo mostrando las opciones que son válidas:</p>
+
+<div class="language-kotlin highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="nc">Person</span> <span class="k">private</span> <span class="k">constructor</span> <span class="p">(</span>
+    <span class="k">private</span> <span class="kd">val</span> <span class="py">name</span><span class="p">:</span> <span class="nc">String</span><span class="p">,</span> <span class="kd">val</span> <span class="py">town</span><span class="p">:</span> <span class="nc">String</span><span class="p">?){</span>
+
+    <span class="kd">var</span> <span class="py">age</span><span class="p">:</span> <span class="nc">Int</span><span class="p">?</span> <span class="p">=</span> <span class="k">null</span><span class="p">;</span> <span class="k">private</span> <span class="k">set</span>
+    <span class="kd">var</span> <span class="py">workplace</span><span class="p">:</span> <span class="nc">String</span><span class="p">?</span> <span class="p">=</span> <span class="k">null</span><span class="p">;</span> <span class="k">private</span> <span class="k">set</span>
+    <span class="kd">var</span> <span class="py">school</span><span class="p">:</span> <span class="nc">String</span><span class="p">?</span> <span class="p">=</span> <span class="k">null</span><span class="p">;</span> <span class="k">private</span> <span class="k">set</span>
+
+    <span class="k">companion</span> <span class="k">object</span> <span class="p">{</span>
+
+        <span class="k">fun</span> <span class="nf">builder</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nc">String</span><span class="p">,</span> <span class="n">town</span><span class="p">:</span> <span class="nc">String</span><span class="p">?</span> <span class="p">=</span> <span class="k">null</span><span class="p">):</span> <span class="nc">Builder</span> 
+            <span class="p">=</span> <span class="nc">Builder</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">town</span><span class="p">)</span>
+
+        <span class="kd">class</span> <span class="nc">Builder</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nc">String</span><span class="p">,</span> <span class="n">town</span><span class="p">:</span> <span class="nc">String</span><span class="p">?){</span>
+            <span class="k">private</span> <span class="kd">val</span> <span class="py">person</span><span class="p">:</span> <span class="nc">Person</span> <span class="p">=</span> <span class="nc">Person</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">town</span><span class="p">)</span>
+
+            <span class="k">fun</span> <span class="nf">setMajor</span><span class="p">(</span><span class="n">age</span><span class="p">:</span> <span class="nc">Int</span><span class="p">):</span> <span class="nc">MajorBuilder</span><span class="p">{</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">age</span> <span class="p">&lt;</span> <span class="mi">18</span><span class="p">)</span> <span class="nf">error</span><span class="p">(</span><span class="s">"age has to be older than 18"</span><span class="p">)</span>
+                <span class="n">person</span><span class="p">.</span><span class="n">age</span> <span class="p">=</span> <span class="n">age</span>
+                <span class="k">return</span> <span class="nc">MajorBuilder</span><span class="p">(</span><span class="n">person</span><span class="p">)</span>
+            <span class="p">}</span>
+
+            <span class="k">fun</span> <span class="nf">setMinor</span><span class="p">(</span><span class="n">age</span><span class="p">:</span> <span class="nc">Int</span><span class="p">):</span> <span class="nc">MinorBuilder</span><span class="p">{</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">age</span> <span class="p">&gt;=</span> <span class="mi">18</span><span class="p">)</span> <span class="nf">error</span><span class="p">(</span><span class="s">"age has to be younger than 18"</span><span class="p">)</span>
+                <span class="n">person</span><span class="p">.</span><span class="n">age</span> <span class="p">=</span> <span class="n">age</span>
+                <span class="k">return</span> <span class="nc">MinorBuilder</span><span class="p">(</span><span class="n">person</span><span class="p">)</span>
+            <span class="p">}</span>
+
+        <span class="p">}</span>
+
+        <span class="kd">class</span> <span class="nc">MajorBuilder</span><span class="p">(</span><span class="kd">val</span> <span class="py">person</span><span class="p">:</span> <span class="nc">Person</span><span class="p">){</span>
+            <span class="k">fun</span> <span class="nf">setWorkplace</span><span class="p">(</span><span class="n">workplace</span><span class="p">:</span> <span class="nc">String</span><span class="p">):</span> <span class="nc">MajorBuilder</span><span class="p">{</span>
+                <span class="n">person</span><span class="p">.</span><span class="n">workplace</span> <span class="p">=</span> <span class="n">workplace</span>
+                <span class="k">return</span> <span class="k">this</span>
+            <span class="p">}</span>
+
+            <span class="k">fun</span> <span class="nf">build</span><span class="p">()</span> <span class="p">=</span> <span class="n">person</span>
+        <span class="p">}</span>
+
+        <span class="kd">class</span> <span class="nc">MinorBuilder</span><span class="p">(</span><span class="kd">val</span> <span class="py">person</span><span class="p">:</span> <span class="nc">Person</span><span class="p">){</span>
+            <span class="k">fun</span> <span class="nf">setSchool</span><span class="p">(</span><span class="n">school</span><span class="p">:</span> <span class="nc">String</span><span class="p">):</span> <span class="nc">MinorBuilder</span><span class="p">{</span>
+                <span class="n">person</span><span class="p">.</span><span class="n">school</span> <span class="p">=</span> <span class="n">school</span>
+                <span class="k">return</span> <span class="k">this</span>
+            <span class="p">}</span>
+
+            <span class="k">fun</span> <span class="nf">build</span><span class="p">()</span> <span class="p">=</span> <span class="n">person</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h3 id="explicación">Explicación</h3>
+<p>Si analizamos el código, vemos que el constructor de <code class="language-plaintext highlighter-rouge">Person</code> es privado, esto es, no podrá ser instanciado de forma ordinaria, solo podrá intanciarse desde dentro de la propia clase. Por otra parte, vemos que este constructor privado tiene solamente dos parámetros, <code class="language-plaintext highlighter-rouge">name</code> y <code class="language-plaintext highlighter-rouge">town</code>. ¿Por qué solo estos dos parámetros? Bien, por que son los únicos parámetros donde los requisitos que han cumplirse son independintes del resto de parámetros, quiero decir, las condiciones que han de cumplir estos dos parámetros no dependen del valor otros parámetros y tampoco las condiciones de otros parámetros se ven afectadas por el valor de éstos. Tal vez todo vaya adquiriendo más sentido conforme avancemos en el análisis.</p>
+
+<p>Además, también observamos que la clase <code class="language-plaintext highlighter-rouge">Person</code> posee el resto de propiedades: <code class="language-plaintext highlighter-rouge">age</code>,<code class="language-plaintext highlighter-rouge">workplace</code> y <code class="language-plaintext highlighter-rouge">school</code>, que pueden ser leidas de forma pública pero solo pueden ser modificadas desde dentro de la clase.</p>
+
+<p>Como vemos en el código, no ofrecemos un contrucutor público, sin embargo, ofrecemos un método publico estático llamado <code class="language-plaintext highlighter-rouge">builder</code> que aceptará los dos parámetros de los que hablábamos antes y nos ayudará con la instanciación de la clase. Al llamar a este método estático, lo que obtenemos no es un objeto de tipo <code class="language-plaintext highlighter-rouge">Person</code>, si no un objeto de tipo <code class="language-plaintext highlighter-rouge">Builder</code>, el cual posee internamente una instancia de <code class="language-plaintext highlighter-rouge">Person</code> todavía en construcción, por el momento, solo se le han inicializado las propiedades <code class="language-plaintext highlighter-rouge">name</code> y <code class="language-plaintext highlighter-rouge">town</code>.</p>
+
+<p>Este objeto <code class="language-plaintext highlighter-rouge">Builder</code> devuelto nos ofrece dos métodos, que representan los dos posibles caminos de instanciación que queremos seguir, es decir, a tavés de los métodos <code class="language-plaintext highlighter-rouge">setMajor</code> y <code class="language-plaintext highlighter-rouge">setMinor</code> nos obliga a decidir en este momento si queremos instanciar una persona mayor o menor de edad teniendo que aportar obligatoriamente un valor para la edad, a su vez, la llamada a uno de estos métodos, establecerá el valor correspondiente en la propiedad <code class="language-plaintext highlighter-rouge">age</code> de la instancia <code class="language-plaintext highlighter-rouge">Person</code> en construcción y nos devolverá otro builder, un <code class="language-plaintext highlighter-rouge">MajorBuilder</code> o un <code class="language-plaintext highlighter-rouge">MinorBuilder</code>, dependiendo del método al que hayamas invocado. De forma que un <code class="language-plaintext highlighter-rouge">MajorBuilder</code> nos ofrecerá la opción de dar un valor para <code class="language-plaintext highlighter-rouge">workplace</code> pero no tendremos forma de dar un valor para <code class="language-plaintext highlighter-rouge">school</code>, puesto que las personas mayores de edad no han de informar de <code class="language-plaintext highlighter-rouge">school</code>, y de forma equivalente <code class="language-plaintext highlighter-rouge">MinorBuilder</code> nos permite dar un valor a <code class="language-plaintext highlighter-rouge">school</code> pero no nos deja dar un valor a <code class="language-plaintext highlighter-rouge">workplace</code>. Ambos builders, <code class="language-plaintext highlighter-rouge">MajorBuilder</code> y <code class="language-plaintext highlighter-rouge">MinorBuilder</code>, nos ofrecerán la posibilidad, a parte de establecer valores a los campos pertinentes, de instanciar finalmente el objeto <code class="language-plaintext highlighter-rouge">Person</code> a través de su método <code class="language-plaintext highlighter-rouge">build()</code>.</p>
+
+<h3 id="instanciaciones-válidas">Instanciaciones válidas</h3>
+<p>Un ejemplo de instanciación de cada una de las 8 combinaciones válidas de la tabla anterior serían las siguientes:</p>
+
+<div class="language-kotlin highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">fun</span> <span class="nf">main</span><span class="p">(){</span>
+
+    <span class="kd">val</span> <span class="py">combi3</span> <span class="p">=</span> <span class="nc">Person</span><span class="p">.</span><span class="nf">builder</span><span class="p">(</span><span class="s">"Juan"</span><span class="p">)</span>
+        <span class="p">.</span><span class="nf">setMinor</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span>
+        <span class="p">.</span><span class="nf">build</span><span class="p">()</span>
+
+    <span class="kd">val</span> <span class="py">combi4</span> <span class="p">=</span> <span class="nc">Person</span><span class="p">.</span><span class="nf">builder</span><span class="p">(</span><span class="s">"Juan"</span><span class="p">)</span>
+        <span class="p">.</span><span class="nf">setMinor</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span>
+        <span class="p">.</span><span class="nf">setSchool</span><span class="p">(</span><span class="s">"C.P. Gabriela Mistral"</span><span class="p">)</span>
+        <span class="p">.</span><span class="nf">build</span><span class="p">()</span>
+
+    <span class="kd">val</span> <span class="py">combi5</span> <span class="p">=</span> <span class="nc">Person</span><span class="p">.</span><span class="nf">builder</span><span class="p">(</span><span class="s">"Juan"</span><span class="p">,</span><span class="s">"Valencia"</span><span class="p">)</span>
+        <span class="p">.</span><span class="nf">setMinor</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span>
+        <span class="p">.</span><span class="nf">build</span><span class="p">()</span>
+
+    <span class="kd">val</span> <span class="py">combi6</span> <span class="p">=</span> <span class="nc">Person</span><span class="p">.</span><span class="nf">builder</span><span class="p">(</span><span class="s">"Juan"</span><span class="p">,</span><span class="s">"Valencia"</span><span class="p">)</span>
+        <span class="p">.</span><span class="nf">setMinor</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span>
+        <span class="p">.</span><span class="nf">setSchool</span><span class="p">(</span><span class="s">"C.P. Gabriela Mistral"</span><span class="p">)</span>
+        <span class="p">.</span><span class="nf">build</span><span class="p">()</span>
+
+    <span class="kd">val</span> <span class="py">combi8</span> <span class="p">=</span> <span class="nc">Person</span><span class="p">.</span><span class="nf">builder</span><span class="p">(</span><span class="s">"Juan"</span><span class="p">)</span>
+        <span class="p">.</span><span class="nf">setMajor</span><span class="p">(</span><span class="mi">35</span><span class="p">)</span>
+        <span class="p">.</span><span class="nf">build</span><span class="p">()</span>
+
+    <span class="kd">val</span> <span class="py">combi9</span> <span class="p">=</span> <span class="nc">Person</span><span class="p">.</span><span class="nf">builder</span><span class="p">(</span><span class="s">"Juan"</span><span class="p">)</span>
+        <span class="p">.</span><span class="nf">setMajor</span><span class="p">(</span><span class="mi">35</span><span class="p">)</span>
+        <span class="p">.</span><span class="nf">setWorkplace</span><span class="p">(</span><span class="s">"My office"</span><span class="p">)</span>
+        <span class="p">.</span><span class="nf">build</span><span class="p">()</span>
+
+    <span class="kd">val</span> <span class="py">combi10</span> <span class="p">=</span> <span class="nc">Person</span><span class="p">.</span><span class="nf">builder</span><span class="p">(</span><span class="s">"Juan"</span><span class="p">,</span><span class="s">"Valencia"</span><span class="p">)</span>
+        <span class="p">.</span><span class="nf">setMajor</span><span class="p">(</span><span class="mi">35</span><span class="p">)</span>
+        <span class="p">.</span><span class="nf">build</span><span class="p">()</span>
+
+    <span class="kd">val</span> <span class="py">combi11</span> <span class="p">=</span> <span class="nc">Person</span><span class="p">.</span><span class="nf">builder</span><span class="p">(</span><span class="s">"Juan"</span><span class="p">,</span><span class="s">"Valencia"</span><span class="p">)</span>
+        <span class="p">.</span><span class="nf">setMajor</span><span class="p">(</span><span class="mi">35</span><span class="p">)</span>
+        <span class="p">.</span><span class="nf">setWorkplace</span><span class="p">(</span><span class="s">"My office"</span><span class="p">)</span>
+        <span class="p">.</span><span class="nf">build</span><span class="p">()</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h3 id="instanciaciones-inválidas">Instanciaciones inválidas</h3>
+<p>Provocando error de compilación el intento de crear una instancia mal parametrizada, cualquiera de estas combinaciones no compilará:</p>
+
+<div class="language-kotlin highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">val</span> <span class="py">combi1</span> <span class="p">=</span> <span class="nc">Person</span><span class="p">.</span><span class="nf">builder</span><span class="p">().</span><span class="nf">build</span><span class="p">()</span> 
+<span class="c1">// NO COMPILA. No value passed for parameter 'name'</span>
+</code></pre></div></div>
+
+<div class="language-kotlin highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">val</span> <span class="py">combi2</span> <span class="p">=</span> <span class="nc">Person</span><span class="p">.</span><span class="nf">builder</span><span class="p">(</span><span class="s">"Juan"</span><span class="p">).</span><span class="nf">build</span><span class="p">()</span>
+<span class="c1">// NO COMPILA. Unresolved reference: build</span>
+</code></pre></div></div>
+
+<div class="language-kotlin highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">val</span> <span class="py">combi2</span> <span class="p">=</span> <span class="nc">Person</span><span class="p">.</span><span class="nf">builder</span><span class="p">(</span><span class="s">"Juan"</span><span class="p">).</span><span class="nf">build</span><span class="p">()</span>
+<span class="c1">// NO COMPILA. Unresolved reference: build</span>
+</code></pre></div></div>
+
+<div class="language-kotlin highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">val</span> <span class="py">combi7</span> <span class="p">=</span> <span class="nc">Person</span><span class="p">.</span><span class="nf">builder</span><span class="p">(</span><span class="s">"Juan"</span><span class="p">)</span>
+    <span class="p">.</span><span class="nf">setMinor</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span>
+    <span class="p">.</span><span class="nf">setWorkplace</span><span class="p">(</span><span class="s">"My office"</span><span class="p">)</span>
+    <span class="p">.</span><span class="nf">build</span><span class="p">()</span>
+<span class="c1">// NO COMPILA. Unresolved reference: setWorkplace</span>
+</code></pre></div></div>
+
+<div class="language-kotlin highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">val</span> <span class="py">combi12</span> <span class="p">=</span> <span class="nc">Person</span><span class="p">.</span><span class="nf">builder</span><span class="p">(</span><span class="s">"Juan"</span><span class="p">)</span>
+        <span class="p">.</span><span class="nf">setMajor</span><span class="p">(</span><span class="mi">35</span><span class="p">)</span>
+        <span class="p">.</span><span class="nf">setSchool</span><span class="p">(</span><span class="s">"C.P. Gabriela Mistral"</span><span class="p">)</span>
+        <span class="p">.</span><span class="nf">build</span><span class="p">()</span>
+<span class="c1">// NO COMPILA. Unresolved reference: setSchool</span>
+</code></pre></div></div>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Actualizado:</strong> <time datetime="2023-10-27T00:00:00+02:00">October 27, 2023</time></p>
+
+
+      </footer>
+
+      <section class="page__share">
+  
+    <h4 class="page__share-title">Compartir en</h4>
+  
+
+  <a href="https://twitter.com/intent/tweet?text=Builder+pattern%20http%3A%2F%2Flocalhost%3A4000%2Fbuilder-pattern%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Compartir en Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Fbuilder-pattern%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Compartir en Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A4000%2Fbuilder-pattern%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Compartir en LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/kiwifruit/" class="pagination--pager" title="Kiwifruit
+">Anterior</a>
+    
+    
+      <a href="#" class="pagination--pager disabled">Siguiente</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h4 class="page__related-title">Puede que también te interese</h4>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/kiwifruit/" rel="permalink">Kiwifruit
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2018-08-22T00:00:00+02:00">August 22, 2018</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          menos de 1 minuto(s) de lectura
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Kiwifruit (often abbreviated as kiwi), or Chinese gooseberry is the
+edible berry of several species of woody vines in the genus Actinidia.
+
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/apples/" rel="permalink">Apples
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2018-08-21T00:00:00+02:00">August 21, 2018</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          menos de 1 minuto(s) de lectura
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">An apple is a sweet, edible fruit produced by an apple tree.
+
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/bananas/" rel="permalink">Bananas
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2018-08-20T00:00:00+02:00">August 20, 2018</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          menos de 1 minuto(s) de lectura
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">A banana is an edible fruit – botanically a berry – produced by several
+kinds of large herbaceous flowering plants in the genus Musa.
+
+</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+
+    </div>
+
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Seguir:</strong></li>
+    
+
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+
+    
+      <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2024 El viejo aprendiz. Funciona con <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+  </body>
+</html>
